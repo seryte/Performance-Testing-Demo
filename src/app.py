@@ -12,7 +12,6 @@ import socket
 import MySQLdb
 from flask import Flask
 
-
 app = Flask(__name__)
 
 
@@ -21,9 +20,16 @@ def time_me(fn):
     def _wrapper(*args, **kwargs):
         start = time.perf_counter()
         res = fn(*args, **kwargs)
-        return "{}() cost: {}s \n {}".format(fn.__name__,
-                                                  time.perf_counter() - start,
-                                                  res)
+        # return "{}() cost: {}s \n {}".format(fn.__name__,
+        #                                      time.perf_counter() - start,
+        #                                      res)
+        return {
+            "success": "success",
+            "fun": "{}()".format(fn.__name__),
+            "time": '%.3f' % float(time.perf_counter() - start),
+            "ret": res
+        }
+
     return _wrapper
 
 
